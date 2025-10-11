@@ -410,241 +410,238 @@
     </script>
 <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 
+
+
 <script>
+// Backend API URL
 const API_BASE_URL = 'http://localhost:5000/api/auth';
 
-// Send OTP
+// Send OTP function
 async function sendOTP(userData) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/send-otp`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData)
-    });
+    try {
+        console.log('Sending OTP request:', userData);
+        const response = await fetch(`${API_BASE_URL}/send-otp`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error sending OTP:', error);
-    return { success: false, message: 'Failed to send OTP' };
-  }
+        const data = await response.json();
+        console.log('OTP Response:', data);
+        return data;
+    } catch (error) {
+        console.error('Error sending OTP:', error);
+        return { success: false, message: 'Failed to send OTP' };
+    }
 }
 
-// Verify OTP
+// Verify OTP function
 async function verifyOTP(verificationData) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/verify-otp`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(verificationData)
-    });
+    try {
+        console.log('Verifying OTP:', verificationData);
+        const response = await fetch(`${API_BASE_URL}/verify-otp`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(verificationData)
+        });
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error verifying OTP:', error);
-    return { success: false, message: 'Failed to verify OTP' };
-  }
+        const data = await response.json();
+        console.log('Verify Response:', data);
+        return data;
+    } catch (error) {
+        console.error('Error verifying OTP:', error);
+        return { success: false, message: 'Failed to verify OTP' };
+    }
 }
 
-// Login
-async function login(loginData) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData)
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error logging in:', error);
-    return { success: false, message: 'Login failed' };
-  }
-}
-
-// Social login
-async function socialLogin(socialData) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/social`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(socialData)
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error with social login:', error);
-    return { success: false, message: 'Social login failed' };
-  }
-}
-
-// Update your existing form submission handlers to use these functions
+// Update form submissions
 document.addEventListener('DOMContentLoaded', function() {
-  // Update signup form submission
-  const signupForm = document.getElementById('signup-form');
-  if (signupForm) {
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const formData = new FormData(signupForm);
-      const userData = {
-        fullName: formData.get('fullName'),
-        email: formData.get('email'),
-        phoneNumber: formData.get('phoneNumber'),
-        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
-      };
+    console.log('Authentication script loaded');
+    
+    // Signup Form
+    const signupForm = document.getElementById('signup-form');
+    if (signupForm) {
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Signup form submitted');
+            
+            const formData = new FormData(signupForm);
+            const userData = {
+                fullName: document.querySelector('#signup-form input[placeholder*="full name"]')?.value,
+                email: document.querySelector('#signup-form input[type="email"]')?.value,
+                phoneNumber: document.querySelector('#signup-form input[type="tel"]')?.value,
+                userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+            };
 
-      const result = await sendOTP(userData);
-      
-      if (result.success) {
-        // Store userId for OTP verification
-        localStorage.setItem('pendingUserId', result.userId);
-        // Show OTP verification form
-        document.getElementById('signup-form').classList.add('hidden');
-        document.getElementById('otp-verification').classList.remove('hidden');
-      } else {
-        alert('Error: ' + result.message);
-      }
-    });
-  }
+            console.log('User data:', userData);
+            
+            const result = await sendOTP(userData);
+            
+            if (result.success) {
+                alert('OTP sent successfully! Check your terminal/console for the OTP code.');
+                // Store userId for OTP verification
+                localStorage.setItem('pendingUserId', result.userId);
+                // Store OTP for easy testing
+                if (result.otp) {
+                    localStorage.setItem('lastOTP', result.otp);
+                    console.log('Your OTP is:', result.otp);
+                }
+                // Show OTP verification form
+                document.getElementById('signup-form').classList.add('hidden');
+                document.getElementById('otp-verification').classList.remove('hidden');
+            } else {
+                alert('Error: ' + result.message);
+            }
+        });
+    }
 
-  // Update OTP verification
-  const verifyOtpBtn = document.getElementById('verify-otp');
-  if (verifyOtpBtn) {
-    verifyOtpBtn.addEventListener('click', async () => {
-      const otpInputs = document.querySelectorAll('#otp-verification input');
-      const otp = Array.from(otpInputs).map(input => input.value).join('');
-      const userId = localStorage.getItem('pendingUserId');
+    // OTP Verification
+    const verifyOtpBtn = document.getElementById('verify-otp');
+    if (verifyOtpBtn) {
+        verifyOtpBtn.addEventListener('click', async () => {
+            console.log('Verify OTP clicked');
+            const otpInputs = document.querySelectorAll('#otp-verification input');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            const userId = localStorage.getItem('pendingUserId');
 
-      const verificationData = {
-        userId,
-        otp,
-        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
-      };
+            console.log('OTP entered:', otp, 'User ID:', userId);
 
-      const result = await verifyOTP(verificationData);
-      
-      if (result.success) {
-        // Store token and user data
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        
-        // Redirect to dashboard
-        if (result.user.userType === 'driver') {
-          window.location.href = 'driver_dashboard.html';
-        } else {
-          window.location.href = 'rider_dashboard.html';
+            const verificationData = {
+                userId,
+                otp,
+                userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+            };
+
+            const result = await verifyOTP(verificationData);
+            
+            if (result.success) {
+                alert('OTP verified successfully! Redirecting to dashboard...');
+                // Store token and user data
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('user', JSON.stringify(result.user));
+                
+                // Redirect to dashboard
+                if (result.user.userType === 'driver') {
+                    window.location.href = 'driver_dashboard.html';
+                } else {
+                    window.location.href = 'rider_dashboard.html';
+                }
+            } else {
+                alert('Error: ' + result.message);
+            }
+        });
+    }
+
+    // Login Form
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Login form submitted');
+            
+            const email = document.querySelector('#login-form input[type="text"]')?.value;
+            const password = document.querySelector('#login-form input[type="password"]')?.value;
+
+            const loginData = {
+                email: email,
+                password: password || 'demo123' // Default password for demo
+            };
+
+            console.log('Login data:', loginData);
+            
+            // For demo, we'll simulate login by generating OTP
+            const userData = {
+                fullName: 'Demo User',
+                email: email,
+                userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+            };
+
+            const result = await sendOTP(userData);
+            
+            if (result.success) {
+                alert('Login OTP sent! Check terminal for OTP.');
+                localStorage.setItem('pendingUserId', result.userId);
+                if (result.otp) {
+                    localStorage.setItem('lastOTP', result.otp);
+                    console.log('Your OTP is:', result.otp);
+                }
+                // Show OTP form for login too
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('otp-verification').classList.remove('hidden');
+            } else {
+                alert('Error: ' + result.message);
+            }
+        });
+    }
+
+    // Social Login Buttons
+    const googleLoginBtn = document.getElementById('google-login');
+    const facebookLoginBtn = document.getElementById('facebook-login');
+
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', async () => {
+            console.log('Google login clicked');
+            // Simulate social login by creating a user directly
+            const userData = {
+                fullName: 'Google User',
+                email: 'google_user@example.com',
+                userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+            };
+
+            const result = await sendOTP(userData);
+            
+            if (result.success) {
+                alert('Google login - OTP sent! Check terminal.');
+                localStorage.setItem('pendingUserId', result.userId);
+                if (result.otp) {
+                    localStorage.setItem('lastOTP', result.otp);
+                    console.log('Your OTP is:', result.otp);
+                }
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('otp-verification').classList.remove('hidden');
+            }
+        });
+    }
+
+    if (facebookLoginBtn) {
+        facebookLoginBtn.addEventListener('click', async () => {
+            console.log('Facebook login clicked');
+            const userData = {
+                fullName: 'Facebook User',
+                email: 'facebook_user@example.com', 
+                userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+            };
+
+            const result = await sendOTP(userData);
+            
+            if (result.success) {
+                alert('Facebook login - OTP sent! Check terminal.');
+                localStorage.setItem('pendingUserId', result.userId);
+                if (result.otp) {
+                    localStorage.setItem('lastOTP', result.otp);
+                    console.log('Your OTP is:', result.otp);
+                }
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('otp-verification').classList.remove('hidden');
+            }
+        });
+    }
+
+    // Auto-fill OTP for testing (double-click on verify button to use)
+    verifyOtpBtn.addEventListener('dblclick', function() {
+        const lastOTP = localStorage.getItem('lastOTP');
+        if (lastOTP) {
+            const otpInputs = document.querySelectorAll('#otp-verification input');
+            otpInputs.forEach((input, index) => {
+                input.value = lastOTP[index] || '';
+            });
+            alert('OTP auto-filled for testing!');
         }
-      } else {
-        alert('Error: ' + result.message);
-      }
     });
-  }
-
-  // Update login form
-  const loginForm = document.getElementById('login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const formData = new FormData(loginForm);
-      const loginData = {
-        email: formData.get('email'),
-        phoneNumber: formData.get('phoneNumber'),
-        password: formData.get('password')
-      };
-
-      const result = await login(loginData);
-      
-      if (result.success) {
-        // Store token and user data
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        
-        // Redirect to dashboard
-        if (result.user.userType === 'driver') {
-          window.location.href = 'driver_dashboard.html';
-        } else {
-          window.location.href = 'rider_dashboard.html';
-        }
-      } else {
-        alert('Error: ' + result.message);
-      }
-    });
-  }
-
-  // Update social login buttons
-  const googleLoginBtn = document.getElementById('google-login');
-  const facebookLoginBtn = document.getElementById('facebook-login');
-
-  if (googleLoginBtn) {
-    googleLoginBtn.addEventListener('click', async () => {
-      // In a real app, this would use Google OAuth
-      // For demo, we'll simulate with mock data
-      const socialData = {
-        socialId: 'google_' + Date.now(),
-        provider: 'google',
-        email: 'demo@example.com',
-        fullName: 'Demo User',
-        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
-      };
-
-      const result = await socialLogin(socialData);
-      
-      if (result.success) {
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        
-        if (result.user.userType === 'driver') {
-          window.location.href = 'driver_dashboard.html';
-        } else {
-          window.location.href = 'rider_dashboard.html';
-        }
-      } else {
-        alert('Error: ' + result.message);
-      }
-    });
-  }
-
-  if (facebookLoginBtn) {
-    facebookLoginBtn.addEventListener('click', async () => {
-      // In a real app, this would use Facebook OAuth
-      // For demo, we'll simulate with mock data
-      const socialData = {
-        socialId: 'facebook_' + Date.now(),
-        provider: 'facebook',
-        email: 'demo@example.com',
-        fullName: 'Demo User',
-        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
-      };
-
-      const result = await socialLogin(socialData);
-      
-      if (result.success) {
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        
-        if (result.user.userType === 'driver') {
-          window.location.href = 'driver_dashboard.html';
-        } else {
-          window.location.href = 'rider_dashboard.html';
-        }
-      } else {
-        alert('Error: ' + result.message);
-      }
-    });
-  }
 });
 </script>
 

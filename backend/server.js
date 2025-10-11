@@ -60,3 +60,37 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
 });
+
+app.post('/api/auth/send-otp', (req, res) => {
+  const { email, phoneNumber, fullName, userType } = req.body;
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  
+  console.log(`📧 OTP for ${email || phoneNumber}: ${otp}`);
+  console.log(`👤 Name: ${fullName}, Type: ${userType}`);
+  
+  res.json({
+    success: true,
+    message: 'OTP sent successfully',
+    otp: otp, // Sending back for testing
+    userId: 'user_' + Date.now()
+  });
+});
+
+app.post('/api/auth/verify-otp', (req, res) => {
+  const { otp, userId, userType } = req.body;
+  
+  console.log(`✅ OTP verified: ${otp} for user: ${userId}`);
+  
+  res.json({
+    success: true,
+    message: 'OTP verified successfully',
+    token: 'token_' + Date.now(),
+    user: {
+      id: userId,
+      fullName: 'Verified User',
+      email: 'user@example.com',
+      userType: userType || 'rider',
+      isVerified: true
+    }
+  });
+});
