@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Driver Authentication - RideSync Pro</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" content="Sign in or create an account to access RideSync Pro driver features." />
+
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fridesyncp5355back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+<script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+</head>
+<body class="bg-surface">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-soft border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 16v-11l9-4.5v11L17 26.5z"/>
+                    </svg>
+                    <span class="text-xl font-bold text-slate-900">RideSync Pro</span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="smart_landing_page.html" class="text-slate-600 hover:text-primary transition-quick">Home</a>
+                    <a href="auth_rider.html" class="text-slate-600 hover:text-primary transition-quick">Rider Portal</a>
+                    <a href="auth_driver.html" class="text-primary font-medium">Driver Portal</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Authentication Section -->
+    <section class="py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50">
+        <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-focus p-8 border border-slate-200">
+                <!-- Logo and Title -->
+                <div class="text-center mb-8">
+                    <div class="flex items-center justify-center mb-4">
+                        <svg class="w-10 h-10 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 16v-11l9-4.5v11L17 26.5z"/>
+                        </svg>
+                        <span class="text-2xl font-bold text-slate-900">RideSync Pro</span>
+                    </div>
+                    <h1 class="text-2xl font-bold text-slate-900">Driver Authentication</h1>
+                    <p class="text-slate-600 mt-2">Sign in or apply to become a driver partner</p>
+                </div>
+                
+                <!-- Social Login Buttons -->
+                <div class="space-y-3 mb-6">
+                    <button id="google-login" class="w-full flex items-center justify-center py-3 px-4 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                        <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span class="font-medium text-slate-700">Continue with Google</span>
+                    </button>
+                    
+                    <button id="facebook-login" class="w-full flex items-center justify-center py-3 px-4 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                        <svg class="w-5 h-5 mr-3 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="font-medium text-slate-700">Continue with Facebook</span>
+                    </button>
+                </div>
+                
+                <!-- Divider -->
+                <div class="relative mb-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-slate-500">Or continue with email</span>
+                    </div>
+                </div>
+                
+                <!-- Tabs for Login/Signup -->
+                <div class="flex border-b border-slate-200 mb-6">
+                    <button id="login-tab" class="flex-1 py-3 text-center font-medium border-b-2 border-primary text-primary">Login</button>
+                    <button id="signup-tab" class="flex-1 py-3 text-center font-medium text-slate-500 hover:text-slate-700">Apply Now</button>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Email or Phone Number</label>
+                        <input type="text" class="input-field" placeholder="Enter your email or phone" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Password</label>
+                        <input type="password" class="input-field" placeholder="Enter your password" required />
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" id="remember-me">
+                            <label for="remember-me" class="ml-2 text-sm text-slate-600">Remember me</label>
+                        </div>
+                        <a href="javascript:void(0)" class="text-sm text-primary hover:text-primary-700">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Login to Driver Portal</button>
+                </form>
+                
+                <!-- Signup Form (Hidden by default) -->
+                <form id="signup-form" class="space-y-5 hidden">
+                    <div class="bg-accent-50 rounded-lg p-4 mb-4">
+                        <h3 class="font-semibold text-slate-900 mb-2">Driver Application Requirements</h3>
+                        <ul class="text-sm text-slate-600 space-y-1">
+                            <li>• Valid driver's license</li>
+                            <li>• Clean driving record</li>
+                            <li>• Vehicle insurance</li>
+                            <li>• Background check clearance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">First Name</label>
+                            <input type="text" class="input-field" placeholder="First name" required />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
+                            <input type="text" class="input-field" placeholder="Last name" required />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                        <input type="email" class="input-field" placeholder="Enter your email" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                        <input type="tel" class="input-field" placeholder="Enter your phone number" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Driver's License Number</label>
+                        <input type="text" class="input-field" placeholder="Enter license number" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Vehicle Type</label>
+                        <select class="input-field" required>
+                            <option value="">Select vehicle type</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="van">Van</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Vehicle Year</label>
+                        <input type="number" class="input-field" placeholder="e.g., 2020" min="2010" max="2025" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Password</label>
+                        <input type="password" class="input-field" placeholder="Create a password" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Confirm Password</label>
+                        <input type="password" class="input-field" placeholder="Confirm your password" required />
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" id="terms" required>
+                        <label for="terms" class="ml-2 text-sm text-slate-600">
+                            I agree to the <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Driver Agreement</a> and <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" id="background-check" required>
+                        <label for="background-check" class="ml-2 text-sm text-slate-600">
+                            I consent to a background check as part of the application process
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">Submit Application</button>
+                </form>
+                
+                <!-- OTP Verification (Hidden by default) -->
+                <div id="otp-verification" class="space-y-5 hidden">
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold text-slate-900">Verify Your Account</h3>
+                        <p class="text-slate-600 mt-2">We've sent a verification code to your email/phone</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Enter Verification Code</label>
+                        <div class="flex space-x-3">
+                            <input type="text" maxlength="1" class="input-field text-center text-lg font-semibold" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" class="input-field text-center text-lg font-semibold" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" class="input-field text-center text-lg font-semibold" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" class="input-field text-center text-lg font-semibold" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" class="input-field text-center text-lg font-semibold" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" class="input-field text-center text-lg font-semibold" pattern="[0-9]" required>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-slate-600">Didn't receive the code? <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Resend</a></p>
+                    </div>
+                    
+                    <button type="button" id="verify-otp" class="btn-primary w-full">Verify & Continue</button>
+                </div>
+                
+                <!-- Application Status (Hidden by default) -->
+                <div id="application-status" class="space-y-5 hidden">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900">Application Submitted</h3>
+                        <p class="text-slate-600 mt-2">Your driver application has been received and is under review.</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 rounded-lg p-4">
+                        <h4 class="font-medium text-slate-900 mb-2">Next Steps:</h4>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-accent mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Background check verification (2-3 business days)
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-slate-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"/>
+                                </svg>
+                                Document verification
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-slate-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd"/>
+                                </svg>
+                                Onboarding session
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-slate-600">We'll notify you via email once your application is approved.</p>
+                    </div>
+                    
+                    <button type="button" id="back-to-home" class="btn-secondary w-full">Back to Home</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Driver Benefits Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Why Drive With RideSync Pro?</h2>
+                <p class="text-xl text-slate-600">Join thousands of drivers earning with our platform</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Flexible Schedule -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-slate-900 mb-2">Flexible Schedule</h3>
+                    <p class="text-slate-600">Drive whenever you want - full time or part time, day or night.</p>
+                </div>
+                
+                <!-- Higher Earnings -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-slate-900 mb-2">Higher Earnings</h3>
+                    <p class="text-slate-600">Competitive rates and bonuses help you maximize your income.</p>
+                </div>
+                
+                <!-- Driver Support -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-warning-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-slate-900 mb-2">24/7 Support</h3>
+                    <p class="text-slate-600">Dedicated support team available anytime you need assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-slate-400">© 2025 RideSync Pro. All Rights Reserved. | Professional ride-sharing platform with safety-first approach.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Authentication Script -->
+    <script>
+        // Tab switching functionality
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const otpVerification = document.getElementById('otp-verification');
+        const applicationStatus = document.getElementById('application-status');
+        
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('border-primary', 'text-primary');
+            signupTab.classList.remove('border-primary', 'text-primary');
+            signupTab.classList.add('text-slate-500');
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+            otpVerification.classList.add('hidden');
+            applicationStatus.classList.add('hidden');
+        });
+        
+        signupTab.addEventListener('click', () => {
+            signupTab.classList.add('border-primary', 'text-primary');
+            loginTab.classList.remove('border-primary', 'text-primary');
+            loginTab.classList.add('text-slate-500');
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            otpVerification.classList.add('hidden');
+            applicationStatus.classList.add('hidden');
+        });
+        
+        // OTP input navigation
+        const otpInputs = document.querySelectorAll('#otp-verification input');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && index > 0 && e.target.value === '') {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+        
+        // Form submission handlers
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, this would validate credentials and redirect to dashboard
+            window.location.href = 'driver_dashboard.html';
+        });
+        
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Show OTP verification
+            loginForm.classList.add('hidden');
+            signupForm.classList.add('hidden');
+            otpVerification.classList.remove('hidden');
+        });
+        
+        document.getElementById('verify-otp').addEventListener('click', () => {
+            // In a real app, this would verify OTP and create account
+            // For demo purposes, show application status
+            otpVerification.classList.add('hidden');
+            applicationStatus.classList.remove('hidden');
+        });
+        
+        document.getElementById('back-to-home').addEventListener('click', () => {
+            window.location.href = 'smart_landing_page.html';
+        });
+        
+        // Social login handlers
+        document.getElementById('google-login').addEventListener('click', () => {
+            // In a real app, this would integrate with Google OAuth
+            // For demo purposes, redirect to dashboard
+            window.location.href = 'driver_dashboard.html';
+        });
+        
+        document.getElementById('facebook-login').addEventListener('click', () => {
+            // In a real app, this would integrate with Facebook OAuth
+            // For demo purposes, redirect to dashboard
+            window.location.href = 'driver_dashboard.html';
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+
+<script>
+const API_BASE_URL = 'http://localhost:5000/api/auth';
+
+// Send OTP
+async function sendOTP(userData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/send-otp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData)
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    return { success: false, message: 'Failed to send OTP' };
+  }
+}
+
+// Verify OTP
+async function verifyOTP(verificationData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/verify-otp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(verificationData)
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    return { success: false, message: 'Failed to verify OTP' };
+  }
+}
+
+// Login
+async function login(loginData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData)
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error logging in:', error);
+    return { success: false, message: 'Login failed' };
+  }
+}
+
+// Social login
+async function socialLogin(socialData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/social`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(socialData)
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error with social login:', error);
+    return { success: false, message: 'Social login failed' };
+  }
+}
+
+// Update your existing form submission handlers to use these functions
+document.addEventListener('DOMContentLoaded', function() {
+  // Update signup form submission
+  const signupForm = document.getElementById('signup-form');
+  if (signupForm) {
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(signupForm);
+      const userData = {
+        fullName: formData.get('fullName'),
+        email: formData.get('email'),
+        phoneNumber: formData.get('phoneNumber'),
+        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+      };
+
+      const result = await sendOTP(userData);
+      
+      if (result.success) {
+        // Store userId for OTP verification
+        localStorage.setItem('pendingUserId', result.userId);
+        // Show OTP verification form
+        document.getElementById('signup-form').classList.add('hidden');
+        document.getElementById('otp-verification').classList.remove('hidden');
+      } else {
+        alert('Error: ' + result.message);
+      }
+    });
+  }
+
+  // Update OTP verification
+  const verifyOtpBtn = document.getElementById('verify-otp');
+  if (verifyOtpBtn) {
+    verifyOtpBtn.addEventListener('click', async () => {
+      const otpInputs = document.querySelectorAll('#otp-verification input');
+      const otp = Array.from(otpInputs).map(input => input.value).join('');
+      const userId = localStorage.getItem('pendingUserId');
+
+      const verificationData = {
+        userId,
+        otp,
+        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+      };
+
+      const result = await verifyOTP(verificationData);
+      
+      if (result.success) {
+        // Store token and user data
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        
+        // Redirect to dashboard
+        if (result.user.userType === 'driver') {
+          window.location.href = 'driver_dashboard.html';
+        } else {
+          window.location.href = 'rider_dashboard.html';
+        }
+      } else {
+        alert('Error: ' + result.message);
+      }
+    });
+  }
+
+  // Update login form
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(loginForm);
+      const loginData = {
+        email: formData.get('email'),
+        phoneNumber: formData.get('phoneNumber'),
+        password: formData.get('password')
+      };
+
+      const result = await login(loginData);
+      
+      if (result.success) {
+        // Store token and user data
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        
+        // Redirect to dashboard
+        if (result.user.userType === 'driver') {
+          window.location.href = 'driver_dashboard.html';
+        } else {
+          window.location.href = 'rider_dashboard.html';
+        }
+      } else {
+        alert('Error: ' + result.message);
+      }
+    });
+  }
+
+  // Update social login buttons
+  const googleLoginBtn = document.getElementById('google-login');
+  const facebookLoginBtn = document.getElementById('facebook-login');
+
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener('click', async () => {
+      // In a real app, this would use Google OAuth
+      // For demo, we'll simulate with mock data
+      const socialData = {
+        socialId: 'google_' + Date.now(),
+        provider: 'google',
+        email: 'demo@example.com',
+        fullName: 'Demo User',
+        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+      };
+
+      const result = await socialLogin(socialData);
+      
+      if (result.success) {
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        
+        if (result.user.userType === 'driver') {
+          window.location.href = 'driver_dashboard.html';
+        } else {
+          window.location.href = 'rider_dashboard.html';
+        }
+      } else {
+        alert('Error: ' + result.message);
+      }
+    });
+  }
+
+  if (facebookLoginBtn) {
+    facebookLoginBtn.addEventListener('click', async () => {
+      // In a real app, this would use Facebook OAuth
+      // For demo, we'll simulate with mock data
+      const socialData = {
+        socialId: 'facebook_' + Date.now(),
+        provider: 'facebook',
+        email: 'demo@example.com',
+        fullName: 'Demo User',
+        userType: window.location.pathname.includes('driver') ? 'driver' : 'rider'
+      };
+
+      const result = await socialLogin(socialData);
+      
+      if (result.success) {
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        
+        if (result.user.userType === 'driver') {
+          window.location.href = 'driver_dashboard.html';
+        } else {
+          window.location.href = 'rider_dashboard.html';
+        }
+      } else {
+        alert('Error: ' + result.message);
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>

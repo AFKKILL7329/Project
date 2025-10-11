@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rider Dashboard - RideSync Pro</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" content="Book rides, track drivers in real-time, manage payments and access safety features. Your complete ride-sharing dashboard." />
+
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fridesyncp5355back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+<script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+</head>
+<body class="bg-surface">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-soft border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 16v-11l9-4.5v11L17 26.5z"/>
+                    </svg>
+                    <span class="text-xl font-bold text-slate-900">RideSync Pro</span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="smart_landing_page.html" class="text-slate-600 hover:text-primary transition-quick">Home</a>
+                    <a href="rider_dashboard.html" class="text-primary font-medium">Rider Portal</a>
+                    <a href="driver_dashboard.html" class="text-slate-600 hover:text-primary transition-quick">Driver Portal</a>
+                    <a href="live_tracking_hub.html" class="text-slate-600 hover:text-primary transition-quick">Live Tracking</a>
+                    <a href="admin_control_panel.html" class="text-slate-600 hover:text-primary transition-quick">Admin</a>
+                    
+                    <!-- User Profile -->
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Profile" class="w-8 h-8 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        <span class="text-slate-700 font-medium">Alex Chen</span>
+                    </div>
+                    
+                    <!-- Emergency Button -->
+                    <button class="bg-error text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-quick flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Emergency
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Left Column - Booking Interface -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Welcome Section -->
+                <div class="bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl p-6 border border-primary-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-2xl font-bold text-slate-900 mb-2">Welcome back, Alex!</h1>
+                            <p class="text-slate-600">Ready for your next ride? Let's get you moving.</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm text-slate-500">Current Time</div>
+                            <div class="text-lg font-semibold text-slate-900" id="current-time">9:55 AM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Booking Card -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-slate-900">Book a Ride</h2>
+                        <div class="flex items-center space-x-2">
+                            <span class="status-success">3 drivers nearby</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Booking Form -->
+                    <div class="space-y-4">
+                        <!-- Pickup Location -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Pickup Location</label>
+                            <div class="relative">
+                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                <input type="text" class="input-field pl-10" placeholder="Enter pickup location" value="123 Main Street, Downtown" />
+                                <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-accent hover:text-accent-600">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Destination -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Destination</label>
+                            <div class="relative">
+                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-error" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                <input type="text" class="input-field pl-10" placeholder="Where are you going?" />
+                            </div>
+                        </div>
+                        
+                        <!-- Ride Options -->
+                        <div class="grid grid-cols-3 gap-3">
+                            <button class="p-4 border-2 border-primary bg-primary-50 rounded-lg text-center transition-all hover:bg-primary-100">
+                                <svg class="w-6 h-6 text-primary mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="text-sm font-medium text-primary">Standard</div>
+                                <div class="text-xs text-slate-500">$12-15</div>
+                            </button>
+                            <button class="p-4 border-2 border-slate-200 rounded-lg text-center transition-all hover:border-primary hover:bg-primary-50">
+                                <svg class="w-6 h-6 text-slate-400 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="text-sm font-medium text-slate-600">Premium</div>
+                                <div class="text-xs text-slate-500">$18-22</div>
+                            </button>
+                            <button class="p-4 border-2 border-slate-200 rounded-lg text-center transition-all hover:border-primary hover:bg-primary-50">
+                                <svg class="w-6 h-6 text-slate-400 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="text-sm font-medium text-slate-600">Shared</div>
+                                <div class="text-xs text-slate-500">$8-12</div>
+                            </button>
+                        </div>
+                        
+                        <!-- Book Now Button -->
+                        <button class="btn-primary w-full text-lg py-4">
+                            <svg class="w-5 h-5 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414-1.414L9 5.586 7.707 4.293a1 1 0 00-1.414 1.414L8.586 8H5a1 1 0 100 2h3.586l-2.293 2.293a1 1 0 101.414 1.414L9 12.414l.293.293a1 1 0 001.414-1.414L8.414 10H12a1 1 0 100-2H8.414l2.293-2.293z" clip-rule="evenodd"/>
+                            </svg>
+                            Book Ride Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Map -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-slate-900">Live Driver Map</h3>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                            <span class="text-sm text-slate-600">Live tracking</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Container -->
+                    <div class="relative bg-slate-100 rounded-lg h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="City Map" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Driver Markers -->
+                        <div class="absolute top-4 left-4 w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                        <div class="absolute top-12 right-8 w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                        <div class="absolute bottom-8 left-12 w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                        
+                        <!-- Your Location -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <div class="w-6 h-6 bg-accent rounded-full border-4 border-white shadow-lg"></div>
+                            <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
+                                You are here
+                            </div>
+                        </div>
+                        
+                        <!-- Map Controls -->
+                        <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                            <button class="bg-white p-2 rounded-lg shadow-soft hover:shadow-focus transition-all">
+                                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                            </button>
+                            <button class="bg-white p-2 rounded-lg shadow-soft hover:shadow-focus transition-all">
+                                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Legend -->
+                    <div class="flex items-center justify-between mt-4 text-sm">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-primary rounded-full mr-2"></div>
+                                <span class="text-slate-600">Available Drivers</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-accent rounded-full mr-2"></div>
+                                <span class="text-slate-600">Your Location</span>
+                            </div>
+                        </div>
+                        <a href="live_tracking_hub.html" class="text-primary hover:text-primary-700 font-medium">
+                            Full Map View →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Trips -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-slate-900">Recent Trips</h3>
+                        <a href="javascript:void(0)" class="text-primary hover:text-primary-700 font-medium">View All</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Trip 1 -->
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-slate-900">Downtown → Airport</div>
+                                    <div class="text-sm text-slate-500">Oct 8, 2025 • 2:30 PM</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-slate-900">$28.50</div>
+                                <div class="text-sm text-accent">Completed</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Trip 2 -->
+                        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-slate-900">Mall → Home</div>
+                                    <div class="text-sm text-slate-500">Oct 7, 2025 • 6:45 PM</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-slate-900">$15.75</div>
+                                <div class="text-sm text-accent">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Quick Actions & Info -->
+            <div class="space-y-6">
+                <!-- Quick Actions -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="payment_command_center.html" class="flex items-center p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                            </svg>
+                            <span class="font-medium text-slate-900">Payment Methods</span>
+                        </a>
+                        <a href="javascript:void(0)" class="flex items-center p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                            <svg class="w-5 h-5 text-accent mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-slate-900">Profile Settings</span>
+                        </a>
+                        <a href="javascript:void(0)" class="flex items-center p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                            <svg class="w-5 h-5 text-warning mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="font-medium text-slate-900">Support Center</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Fare Calculator -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">Fare Calculator</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Distance</label>
+                            <input type="range" class="w-full" min="1" max="50" value="12" id="distance-slider" />
+                            <div class="flex justify-between text-sm text-slate-500 mt-1">
+                                <span>1 mi</span>
+                                <span id="distance-value">12 mi</span>
+                                <span>50 mi</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-50 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-slate-600">Base fare</span>
+                                <span class="font-medium">$3.50</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-slate-600">Distance</span>
+                                <span class="font-medium" id="distance-cost">$18.00</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-slate-600">Time estimate</span>
+                                <span class="font-medium" id="time-cost">$6.25</span>
+                            </div>
+                            <div class="border-t border-slate-200 pt-2">
+                                <div class="flex justify-between items-center text-lg font-bold">
+                                    <span>Total</span>
+                                    <span class="text-primary" id="total-cost">$27.75</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safety Center -->
+                <div class="card bg-error-50 border-error-100">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-6 h-6 text-error mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-slate-900">Safety Center</h3>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-700">Emergency Contacts</span>
+                            <span class="text-sm font-medium text-accent">2 Added</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-slate-700">Share Trip Status</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked />
+                                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+                            </label>
+                        </div>
+                        <button class="w-full bg-error text-white py-3 rounded-lg font-medium hover:bg-red-700 transition-colors">
+                            Emergency Alert
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Driver Rating -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">Rate Your Last Driver</h3>
+                    <div class="text-center">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Driver" class="w-16 h-16 rounded-full mx-auto mb-3 object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        <div class="font-medium text-slate-900 mb-2">Michael Rodriguez</div>
+                        <div class="flex justify-center space-x-1 mb-4">
+                            <svg class="w-6 h-6 text-warning cursor-pointer hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <svg class="w-6 h-6 text-warning cursor-pointer hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <svg class="w-6 h-6 text-warning cursor-pointer hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <svg class="w-6 h-6 text-warning cursor-pointer hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <svg class="w-6 h-6 text-slate-300 cursor-pointer hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </div>
+                        <button class="btn-primary w-full">Submit Rating</button>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-slate-900">Notifications</h3>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">2</span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-primary-50 rounded-lg">
+                            <svg class="w-5 h-5 text-primary mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                            <div>
+                                <div class="text-sm font-medium text-slate-900">Ride Completed</div>
+                                <div class="text-xs text-slate-600">Your trip to Airport has been completed. Rate your driver!</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3 p-3 bg-accent-50 rounded-lg">
+                            <svg class="w-5 h-5 text-accent mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                            </svg>
+                            <div>
+                                <div class="text-sm font-medium text-slate-900">Payment Processed</div>
+                                <div class="text-xs text-slate-600">$28.50 charged to your default payment method.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-16 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 16v-11l9-4.5v11L17 26.5z"/>
+                        </svg>
+                        <span class="text-xl font-bold">RideSync Pro</span>
+                    </div>
+                    <p class="text-slate-400 mb-4">Professional ride-sharing platform with safety-first approach and transparent pricing.</p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="rider_dashboard.html" class="text-slate-400 hover:text-white transition-colors">Rider Portal</a></li>
+                        <li><a href="driver_dashboard.html" class="text-slate-400 hover:text-white transition-colors">Driver Portal</a></li>
+                        <li><a href="live_tracking_hub.html" class="text-slate-400 hover:text-white transition-colors">Live Tracking</a></li>
+                        <li><a href="payment_command_center.html" class="text-slate-400 hover:text-white transition-colors">Payment Center</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h3 class="font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Safety Guidelines</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Emergency</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h3 class="font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Insurance Info</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center">
+                <p class="text-slate-400">© 2025 RideSync Pro. All Rights Reserved. | Professional ride-sharing platform with safety-first approach.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        // Update time every minute
+        setInterval(updateTime, 60000);
+        updateTime();
+        
+        // Fare calculator functionality
+        const distanceSlider = document.getElementById('distance-slider');
+        const distanceValue = document.getElementById('distance-value');
+        const distanceCost = document.getElementById('distance-cost');
+        const timeCost = document.getElementById('time-cost');
+        const totalCost = document.getElementById('total-cost');
+        
+        function updateFareCalculator() {
+            const distance = parseInt(distanceSlider.value);
+            const baseFare = 3.50;
+            const perMile = 1.50;
+            const timeRate = 0.25; // per minute
+            const estimatedTime = Math.max(distance * 2, 10); // rough estimate
+            
+            const distanceCharge = distance * perMile;
+            const timeCharge = estimatedTime * timeRate;
+            const total = baseFare + distanceCharge + timeCharge;
+            
+            distanceValue.textContent = distance + ' mi';
+            distanceCost.textContent = '$' + distanceCharge.toFixed(2);
+            timeCost.textContent = '$' + timeCharge.toFixed(2);
+            totalCost.textContent = '$' + total.toFixed(2);
+        }
+        
+        distanceSlider.addEventListener('input', updateFareCalculator);
+        updateFareCalculator();
+        
+        // Simulate real-time driver updates
+        function updateDriverLocations() {
+            const markers = document.querySelectorAll('.absolute.top-4, .absolute.top-12, .absolute.bottom-8');
+            markers.forEach(marker => {
+                if (marker.classList.contains('animate-pulse')) {
+                    // Simulate slight movement
+                    const currentTop = parseInt(marker.style.top) || 0;
+                    const currentLeft = parseInt(marker.style.left) || 0;
+                    const newTop = currentTop + (Math.random() - 0.5) * 10;
+                    const newLeft = currentLeft + (Math.random() - 0.5) * 10;
+                    
+                    marker.style.top = Math.max(0, Math.min(100, newTop)) + '%';
+                    marker.style.left = Math.max(0, Math.min(100, newLeft)) + '%';
+                }
+            });
+        }
+        
+        // Update driver positions every 5 seconds
+        setInterval(updateDriverLocations, 5000);
+        
+        // Star rating functionality
+        const stars = document.querySelectorAll('.text-warning, .text-slate-300');
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                stars.forEach((s, i) => {
+                    if (i <= index) {
+                        s.classList.remove('text-slate-300');
+                        s.classList.add('text-warning');
+                    } else {
+                        s.classList.remove('text-warning');
+                        s.classList.add('text-slate-300');
+                    }
+                });
+            });
+        });
+        
+        // Geolocation simulation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    console.log('Location access granted:', position.coords);
+                    // In a real app, this would update the map center
+                },
+                (error) => {
+                    console.log('Location access denied or unavailable');
+                }
+            );
+        }
+        
+        // Notification management
+        function addNotification(type, title, message) {
+            const notificationContainer = document.querySelector('.space-y-3');
+            const notification = document.createElement('div');
+            notification.className = `flex items-start space-x-3 p-3 bg-${type}-50 rounded-lg`;
+            notification.innerHTML = `
+                <svg class="w-5 h-5 text-${type} mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <div class="text-sm font-medium text-slate-900">${title}</div>
+                    <div class="text-xs text-slate-600">${message}</div>
+                </div>
+            `;
+            notificationContainer.prepend(notification);
+            
+            // Update notification count
+            const badge = document.querySelector('.bg-primary.text-white.text-xs');
+            const currentCount = parseInt(badge.textContent);
+            badge.textContent = currentCount + 1;
+        }
+        
+        // Simulate incoming notifications
+        setTimeout(() => {
+            addNotification('accent', 'Driver Found', 'Michael is on his way to pick you up. ETA: 4 minutes.');
+        }, 10000);
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Control Panel - RideSync Pro</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" content="Comprehensive fleet management and system monitoring dashboard for RideSync Pro administrators." />
+
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fridesyncp5355back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+<script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+</head>
+<body class="bg-surface">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-soft border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 16v-11l9-4.5v11L17 26.5z"/>
+                    </svg>
+                    <span class="text-xl font-bold text-slate-900">RideSync Pro</span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="smart_landing_page.html" class="text-slate-600 hover:text-primary transition-quick">Home</a>
+                    <a href="rider_dashboard.html" class="text-slate-600 hover:text-primary transition-quick">Rider Portal</a>
+                    <a href="driver_dashboard.html" class="text-slate-600 hover:text-primary transition-quick">Driver Portal</a>
+                    <a href="live_tracking_hub.html" class="text-slate-600 hover:text-primary transition-quick">Live Tracking</a>
+                    <a href="payment_command_center.html" class="text-slate-600 hover:text-primary transition-quick">Payment Center</a>
+                    <a href="admin_control_panel.html" class="text-primary font-medium">Admin Panel</a>
+                    
+                    <!-- Emergency Button -->
+                    <button class="bg-error text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-quick flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Emergency
+                    </button>
+                </div>
+                
+                <!-- Admin Profile -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Admin Profile" class="w-8 h-8 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        <span class="text-sm font-medium text-slate-700">Admin</span>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Dashboard Header -->
+    <section class="bg-gradient-to-r from-primary-50 to-accent-50 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-900 mb-2">Admin Control Panel</h1>
+                    <p class="text-lg text-slate-600">Fleet management, analytics, and system monitoring dashboard</p>
+                </div>
+                
+                <!-- System Status Indicators -->
+                <div class="mt-6 lg:mt-0 flex flex-wrap gap-4">
+                    <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-soft">
+                        <div class="w-3 h-3 bg-success rounded-full mr-2"></div>
+                        <span class="text-sm font-medium text-slate-700">System Online</span>
+                    </div>
+                    <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-soft">
+                        <div class="w-3 h-3 bg-warning rounded-full mr-2"></div>
+                        <span class="text-sm font-medium text-slate-700">2 Alerts</span>
+                    </div>
+                    <div class="flex items-center bg-white px-4 py-2 rounded-lg shadow-soft">
+                        <svg class="w-4 h-4 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm font-medium text-slate-700">Last Updated: 09:55 AM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Key Metrics Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Active Users -->
+            <div class="card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">Active Users</p>
+                        <p class="text-3xl font-bold text-slate-900" id="active-users">24,847</p>
+                        <p class="text-sm text-success">+12.5% from last week</p>
+                    </div>
+                    <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fleet Vehicles -->
+            <div class="card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">Fleet Vehicles</p>
+                        <p class="text-3xl font-bold text-slate-900" id="fleet-vehicles">1,523</p>
+                        <p class="text-sm text-accent">89% online</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Revenue -->
+            <div class="card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">Daily Revenue</p>
+                        <p class="text-3xl font-bold text-slate-900" id="daily-revenue">$127,450</p>
+                        <p class="text-sm text-success">+8.2% from yesterday</p>
+                    </div>
+                    <div class="w-12 h-12 bg-warning-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Uptime -->
+            <div class="card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-slate-600">System Uptime</p>
+                        <p class="text-3xl font-bold text-slate-900">99.8%</p>
+                        <p class="text-sm text-success">30 days average</p>
+                    </div>
+                    <div class="w-12 h-12 bg-success-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Fleet Management Section -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Real-time Fleet Status -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold text-slate-900">Real-time Fleet Status</h2>
+                        <div class="flex items-center space-x-2">
+                            <button class="btn-secondary text-sm py-2 px-4">Export Data</button>
+                            <button class="btn-primary text-sm py-2 px-4">Refresh</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Fleet Status Grid -->
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-success-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-success mb-1">1,356</div>
+                            <div class="text-sm text-slate-600">Active Vehicles</div>
+                        </div>
+                        <div class="bg-warning-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-warning mb-1">167</div>
+                            <div class="text-sm text-slate-600">Offline Vehicles</div>
+                        </div>
+                        <div class="bg-primary-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-primary mb-1">2,847</div>
+                            <div class="text-sm text-slate-600">Active Rides</div>
+                        </div>
+                    </div>
+
+                    <!-- Fleet Performance Chart Placeholder -->
+                    <div class="bg-slate-50 rounded-lg p-6 h-64 flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-slate-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-slate-600 font-medium">Fleet Performance Analytics</p>
+                            <p class="text-sm text-slate-500">Real-time vehicle tracking and performance metrics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold text-slate-900">User Management</h2>
+                        <div class="flex items-center space-x-2">
+                            <input type="text" placeholder="Search users..." class="input-field text-sm py-2 px-3 w-64" />
+                            <button class="btn-primary text-sm py-2 px-4">Add User</button>
+                        </div>
+                    </div>
+
+                    <!-- User Statistics -->
+                    <div class="grid md:grid-cols-4 gap-4 mb-6">
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-lg font-bold text-slate-900">18,942</div>
+                            <div class="text-xs text-slate-600">Total Riders</div>
+                        </div>
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-lg font-bold text-slate-900">5,678</div>
+                            <div class="text-xs text-slate-600">Active Drivers</div>
+                        </div>
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-lg font-bold text-slate-900">247</div>
+                            <div class="text-xs text-slate-600">Pending Verification</div>
+                        </div>
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-lg font-bold text-slate-900">12</div>
+                            <div class="text-xs text-slate-600">Suspended Accounts</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent User Activity -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-slate-200">
+                                    <th class="text-left py-3 px-4 font-medium text-slate-700">User</th>
+                                    <th class="text-left py-3 px-4 font-medium text-slate-700">Type</th>
+                                    <th class="text-left py-3 px-4 font-medium text-slate-700">Status</th>
+                                    <th class="text-left py-3 px-4 font-medium text-slate-700">Last Active</th>
+                                    <th class="text-left py-3 px-4 font-medium text-slate-700">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-100">
+                                    <td class="py-3 px-4">
+                                        <div class="flex items-center">
+                                            <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="User" class="w-8 h-8 rounded-full mr-3 object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                            <div>
+                                                <div class="font-medium text-slate-900">Sarah Johnson</div>
+                                                <div class="text-sm text-slate-500">sarah.j@email.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="status-success">Rider</span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="status-success">Active</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-sm text-slate-600">2 min ago</td>
+                                    <td class="py-3 px-4">
+                                        <button class="text-primary hover:text-primary-700 text-sm font-medium">View</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-slate-100">
+                                    <td class="py-3 px-4">
+                                        <div class="flex items-center">
+                                            <img src="https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg" alt="User" class="w-8 h-8 rounded-full mr-3 object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                            <div>
+                                                <div class="font-medium text-slate-900">Mike Rodriguez</div>
+                                                <div class="text-sm text-slate-500">mike.r@email.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="status-warning">Driver</span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="status-warning">Pending</span>
+                                    </td>
+                                    <td class="py-3 px-4 text-sm text-slate-600">15 min ago</td>
+                                    <td class="py-3 px-4">
+                                        <button class="text-primary hover:text-primary-700 text-sm font-medium">Review</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Content -->
+            <div class="space-y-8">
+                <!-- System Alerts -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">System Alerts</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3 p-3 bg-warning-50 rounded-lg">
+                            <svg class="w-5 h-5 text-warning mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                            <div>
+                                <div class="font-medium text-slate-900">High Traffic Alert</div>
+                                <div class="text-sm text-slate-600">Downtown area experiencing heavy traffic</div>
+                                <div class="text-xs text-slate-500 mt-1">5 min ago</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3 p-3 bg-error-50 rounded-lg">
+                            <svg class="w-5 h-5 text-error mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                            <div>
+                                <div class="font-medium text-slate-900">Payment Gateway Issue</div>
+                                <div class="text-sm text-slate-600">Temporary payment processing delay</div>
+                                <div class="text-xs text-slate-500 mt-1">12 min ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-4 text-primary font-medium text-sm hover:text-primary-700 transition-colors">
+                        View All Alerts →
+                    </button>
+                </div>
+
+                <!-- Financial Analytics -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">Financial Analytics</h3>
+                    
+                    <!-- Revenue Breakdown -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Platform Commission</span>
+                            <span class="font-semibold text-slate-900">$25,490</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Driver Earnings</span>
+                            <span class="font-semibold text-slate-900">$101,960</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Processing Fees</span>
+                            <span class="font-semibold text-slate-900">$3,820</span>
+                        </div>
+                        <div class="border-t border-slate-200 pt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-slate-900">Total Revenue</span>
+                                <span class="font-bold text-primary text-lg">$131,270</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profit Sharing Chart Placeholder -->
+                    <div class="mt-6 bg-slate-50 rounded-lg p-4 h-32 flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-xs text-slate-600">Profit Distribution Chart</p>
+                        </div>
+                    </div>
+                    
+                    <a href="payment_command_center.html" class="block w-full mt-4 text-center btn-secondary">
+                        View Payment Center
+                    </a>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button class="w-full btn-primary flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                            </svg>
+                            Add New Driver
+                        </button>
+                        
+                        <button class="w-full btn-secondary flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                            Generate Report
+                        </button>
+                        
+                        <a href="live_tracking_hub.html" class="block w-full btn-secondary text-center">
+                            <svg class="w-4 h-4 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                            </svg>
+                            Live Fleet Tracking
+                        </a>
+                        
+                        <button class="w-full btn-secondary flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                            </svg>
+                            System Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-16 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 2.5L25.5 9 16 13.5 6.5 9 16 4.5zM6 10.5l9 4.5v11l-9-4.5v-11zm11 16v-11l9-4.5v11L17 26.5z"/>
+                        </svg>
+                        <span class="text-xl font-bold">RideSync Pro</span>
+                    </div>
+                    <p class="text-slate-400 mb-4">Professional ride-sharing platform with safety-first approach and transparent pricing.</p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="rider_dashboard.html" class="text-slate-400 hover:text-white transition-colors">Rider Portal</a></li>
+                        <li><a href="driver_dashboard.html" class="text-slate-400 hover:text-white transition-colors">Driver Portal</a></li>
+                        <li><a href="live_tracking_hub.html" class="text-slate-400 hover:text-white transition-colors">Live Tracking</a></li>
+                        <li><a href="payment_command_center.html" class="text-slate-400 hover:text-white transition-colors">Payment Center</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h3 class="font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Safety Guidelines</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Emergency</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h3 class="font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Insurance Info</a></li>
+                        <li><a href="javascript:void(0)" class="text-slate-400 hover:text-white transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 text-center">
+                <p class="text-slate-400">© 2025 RideSync Pro. All Rights Reserved. | Professional ride-sharing platform with safety-first approach.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Real-time Dashboard Updates Script -->
+    <script>
+        // Simulate real-time data updates
+        function updateDashboardMetrics() {
+            const activeUsers = document.getElementById('active-users');
+            const fleetVehicles = document.getElementById('fleet-vehicles');
+            const dailyRevenue = document.getElementById('daily-revenue');
+            
+            // Simulate real-time updates with random variations
+            const baseActiveUsers = 24847;
+            const baseFleetVehicles = 1523;
+            const baseDailyRevenue = 127450;
+            
+            const newActiveUsers = baseActiveUsers + Math.floor(Math.random() * 200 - 100);
+            const newFleetVehicles = baseFleetVehicles + Math.floor(Math.random() * 20 - 10);
+            const newDailyRevenue = baseDailyRevenue + Math.floor(Math.random() * 5000 - 2500);
+            
+            // Animate counter updates
+            animateCounter(activeUsers, newActiveUsers);
+            animateCounter(fleetVehicles, newFleetVehicles);
+            
+            // Format revenue with currency
+            const formattedRevenue = '$' + newDailyRevenue.toLocaleString();
+            dailyRevenue.textContent = formattedRevenue;
+        }
+        
+        function animateCounter(element, target, duration = 1500) {
+            const start = parseInt(element.textContent.replace(/[^0-9]/g, ''));
+            const increment = (target - start) / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 16);
+        }
+        
+        // Update dashboard every 45 seconds
+        setInterval(updateDashboardMetrics, 45000);
+        
+        // Initial update after page load
+        setTimeout(() => {
+            updateDashboardMetrics();
+        }, 2000);
+        
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: true, 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            const timestampElements = document.querySelectorAll('[data-timestamp]');
+            timestampElements.forEach(element => {
+                element.textContent = `Last Updated: ${timeString}`;
+            });
+        }
+        
+        // Update timestamp every minute
+        setInterval(updateTimestamp, 60000);
+        updateTimestamp();
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
