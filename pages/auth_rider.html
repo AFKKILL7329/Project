@@ -264,7 +264,7 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    showMessage(`OTP sent successfully! Check your terminal for OTP: ${data.otp}`, 'success');
+                    showMessage('OTP sent successfully! Check your email for the verification code.', 'success');
                     otpEmailDisplay.textContent = currentUserData.email;
                     signupForm.classList.add('hidden');
                     otpVerification.classList.remove('hidden');
@@ -340,7 +340,7 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    showMessage(`New OTP sent! Check terminal: ${data.otp}`, 'success');
+                    showMessage('New OTP sent! Check your email for the verification code.', 'success');
                 } else {
                     showMessage(data.message || 'Error resending OTP');
                 }

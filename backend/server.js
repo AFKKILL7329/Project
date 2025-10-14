@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const app = express();
 
@@ -14,7 +16,7 @@ app.use(cors());
 // MongoDB Connection
 console.log('🔗 Attempting to connect to MongoDB...');
 
-mongoose.connect('mongodb://127.0.0.1:27017/Project_DB', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/Project_DB', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
@@ -26,6 +28,34 @@ mongoose.connect('mongodb://127.0.0.1:27017/Project_DB', {
 .catch((err) => {
     console.log('❌ MongoDB connection failed:', err.message);
 });
+
+// Create Nodemailer Transporter - FIXED TYPO HERE
+const createTransporter = () => {
+    return nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE || 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD,
+        },
+    });
+};
+
+// Test email configuration
+const testEmailConfig = async () => {
+    try {
+        const transporter = createTransporter();
+        await transporter.verify();
+        console.log('✅ Email configuration is correct');
+        return true;
+    } catch (error) {
+        console.log('❌ Email configuration error:', error.message);
+        console.log('💡 Please check your .env file and Gmail App Password');
+        return false;
+    }
+};
+
+// Call this on server start
+testEmailConfig();
 
 // User Schema (for both Riders and Drivers)
 const userSchema = new mongoose.Schema({
@@ -64,11 +94,76 @@ const User = mongoose.model('User', userSchema);
 const Driver = mongoose.model('Driver', driverSchema);
 const OTP = mongoose.model('OTP', otpSchema);
 
-const JWT_SECRET = 'ridesync-secret-key-2025';
+const JWT_SECRET = process.env.JWT_SECRET || 'ridesync-secret-key-2025';
 
 // Generate OTP
 function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// Send OTP Email
+async function sendOTPEmail(email, otp, userType) {
+    try {
+        const transporter = createTransporter();
+        
+        const subject = userType === 'driver' 
+            ? 'RideSync Pro - Driver Account Verification' 
+            : 'RideSync Pro - Account Verification';
+            
+        const htmlContent = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; color: white;">
+                    <h1 style="margin: 0; font-size: 28px;">RideSync Pro</h1>
+                    <p style="margin: 10px 0 0 0; opacity: 0.9;">${userType === 'driver' ? 'Driver Account Verification' : 'Account Verification'}</p>
+                </div>
+                
+                <div style="padding: 30px; background: #f8f9fa;">
+                    <h2 style="color: #333; margin-bottom: 20px;">Verify Your Email Address</h2>
+                    <p style="color: #666; line-height: 1.6;">
+                        Thank you for signing up for RideSync Pro! 
+                        Use the verification code below to complete your registration:
+                    </p>
+                    
+                    <div style="background: white; padding: 25px; border-radius: 10px; text-align: center; margin: 25px 0; border: 2px solid #e9ecef;">
+                        <div style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #667eea; margin: 15px 0;">
+                            ${otp}
+                        </div>
+                        <p style="color: #666; font-size: 14px; margin: 10px 0 0 0;">
+                            This code will expire in 10 minutes
+                        </p>
+                    </div>
+                    
+                    <p style="color: #666; font-size: 14px; line-height: 1.6;">
+                        If you didn't create an account with RideSync Pro, please ignore this email.
+                    </p>
+                </div>
+                
+                <div style="background: #343a40; padding: 20px; text-align: center; color: white;">
+                    <p style="margin: 0; font-size: 14px;">
+                        &copy; 2025 RideSync Pro. All rights reserved.
+                    </p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">
+                        Professional Ride-Sharing Platform
+                    </p>
+                </div>
+            </div>
+        `;
+
+        const mailOptions = {
+            from: `"RideSync Pro" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: subject,
+            html: htmlContent
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`✅ OTP email sent to: ${email}`);
+        console.log(`📧 Message ID: ${info.messageId}`);
+        return true;
+    } catch (error) {
+        console.error('❌ Error sending email:', error);
+        return false;
+    }
 }
 
 // Health Check
@@ -77,7 +172,8 @@ app.get('/api/health', (req, res) => {
         success: true,
         message: 'RideSync Backend is running!',
         timestamp: new Date().toISOString(),
-        database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+        database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+        email: process.env.EMAIL_USER ? 'Configured' : 'Not Configured'
     });
 });
 
@@ -111,12 +207,21 @@ app.post('/api/auth/send-otp', async (req, res) => {
             expiresAt
         });
 
-        console.log(`📧 OTP for ${email}: ${otp}`); // In production, send via email/SMS
+        // Send OTP via Email
+        const emailSent = await sendOTPEmail(email, otp, userType);
+
+        if (!emailSent) {
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to send OTP email. Please try again.'
+            });
+        }
 
         res.json({
             success: true,
-            message: 'OTP sent successfully',
-            otp: otp // Remove this in production - only for testing
+            message: 'OTP sent successfully to your email'
+            // Remove the otp field in production - only for testing
+            // otp: otp 
         });
 
     } catch (error) {
@@ -286,4 +391,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`🔗 Health check: http://localhost:${PORT}/api/health`);
+    console.log(`📧 Email service: ${process.env.EMAIL_USER ? 'Configured' : 'Not Configured'}`);
 });
