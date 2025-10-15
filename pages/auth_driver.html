@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Driver Authentication - RideSync Pro</title>
-    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <meta name="description" content="Sign in or create an account to access RideSync Pro driver features." />
 </head>
 <body class="bg-surface">
@@ -22,7 +22,7 @@
                 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="smart_landing_page.html" class="text-slate-600 hover:text-primary transition-quick">Home</a>
+                    <a href="/" class="text-slate-600 hover:text-primary transition-quick">Home</a>
                     <a href="auth_rider.html" class="text-slate-600 hover:text-primary transition-quick">Rider Portal</a>
                     <a href="auth_driver.html" class="text-primary font-medium">Driver Portal</a>
                 </div>
@@ -190,7 +190,11 @@
     </section>
 
     <script>
-        const API_BASE_URL = 'http://localhost:5000/apiproject-production-bcbe.up.railway.appproject-production-bcbe.up.railway.app';
+        // API Base URL for Production
+        const API_BASE_URL = 'https://project-production-bcbe.up.railway.app/api';
+        
+        console.log('🚀 API Base URL:', API_BASE_URL);
+        console.log('🌐 Current Host:', window.location.hostname);
 
         // DOM Elements
         const loginTab = document.getElementById('login-tab');
@@ -428,6 +432,18 @@
             } catch (error) {
                 console.error('Login error:', error);
                 showMessage('Network error. Please try again.');
+            }
+        });
+
+        // Test backend connection on page load
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                console.log('✅ Backend connection successful:', data);
+            } catch (error) {
+                console.error('❌ Backend connection failed:', error);
+                showMessage('Backend service is currently unavailable. Please try again later.', 'error');
             }
         });
     </script>

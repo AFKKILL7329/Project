@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rider Authentication - RideSync Pro</title>
-    <link rel="stylesheet" href="../css/main.css" />
-    <meta name="description" content="Sign in or create an account to book rides with RideSync Pro." />
+    <title>Driver Authentication - RideSync Pro</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <meta name="description" content="Sign in or create an account to access RideSync Pro driver features." />
 </head>
 <body class="bg-surface">
     <!-- Navigation Header -->
@@ -22,9 +22,9 @@
                 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="smart_landing_page.html" class="text-slate-600 hover:text-primary transition-quick">Home</a>
-                    <a href="auth_rider.html" class="text-primary font-medium">Rider Portal</a>
-                    <a href="auth_driver.html" class="text-slate-600 hover:text-primary transition-quick">Driver Portal</a>
+                    <a href="/" class="text-slate-600 hover:text-primary transition-quick">Home</a>
+                    <a href="auth_rider.html" class="text-slate-600 hover:text-primary transition-quick">Rider Portal</a>
+                    <a href="auth_driver.html" class="text-primary font-medium">Driver Portal</a>
                 </div>
             </div>
         </div>
@@ -42,14 +42,14 @@
                         </svg>
                         <span class="text-2xl font-bold text-slate-900">RideSync Pro</span>
                     </div>
-                    <h1 class="text-2xl font-bold text-slate-900">Rider Authentication</h1>
-                    <p class="text-slate-600 mt-2">Sign in or create an account to book rides</p>
+                    <h1 class="text-2xl font-bold text-slate-900">Driver Authentication</h1>
+                    <p class="text-slate-600 mt-2">Sign in or apply to become a driver partner</p>
                 </div>
                 
                 <!-- Tabs for Login/Signup -->
                 <div class="flex border-b border-slate-200 mb-6">
                     <button id="login-tab" class="flex-1 py-3 text-center font-medium border-b-2 border-primary text-primary">Login</button>
-                    <button id="signup-tab" class="flex-1 py-3 text-center font-medium text-slate-500 hover:text-slate-700">Sign Up</button>
+                    <button id="signup-tab" class="flex-1 py-3 text-center font-medium text-slate-500 hover:text-slate-700">Apply Now</button>
                 </div>
                 
                 <!-- Login Form -->
@@ -72,11 +72,21 @@
                         <a href="javascript:void(0)" class="text-sm text-primary hover:text-primary-700">Forgot password?</a>
                     </div>
                     
-                    <button type="submit" class="btn-primary w-full">Login to Rider Portal</button>
+                    <button type="submit" class="btn-primary w-full">Login to Driver Portal</button>
                 </form>
                 
                 <!-- Signup Form (Hidden by default) -->
                 <form id="signup-form" class="space-y-5 hidden">
+                    <div class="bg-accent-50 rounded-lg p-4 mb-4">
+                        <h3 class="font-semibold text-slate-900 mb-2">Driver Application Requirements</h3>
+                        <ul class="text-sm text-slate-600 space-y-1">
+                            <li>• Valid driver's license</li>
+                            <li>• Clean driving record</li>
+                            <li>• Vehicle insurance</li>
+                            <li>• Background check clearance</li>
+                        </ul>
+                    </div>
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">First Name</label>
@@ -99,6 +109,27 @@
                     </div>
                     
                     <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Driver's License Number</label>
+                        <input type="text" id="license-number" class="input-field" placeholder="Enter license number" required />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Vehicle Type</label>
+                        <select id="vehicle-type" class="input-field" required>
+                            <option value="">Select vehicle type</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="van">Van</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Vehicle Year</label>
+                        <input type="number" id="vehicle-year" class="input-field" placeholder="e.g., 2020" min="2010" max="2025" required />
+                    </div>
+                    
+                    <div>
                         <label class="block text-sm font-medium text-slate-700 mb-2">Password</label>
                         <input type="password" id="signup-password" class="input-field" placeholder="Create a password" required />
                     </div>
@@ -111,7 +142,14 @@
                     <div class="flex items-center">
                         <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" id="terms" required>
                         <label for="terms" class="ml-2 text-sm text-slate-600">
-                            I agree to the <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Terms of Service</a> and <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Privacy Policy</a>
+                            I agree to the <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Driver Agreement</a> and <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary" id="background-check" required>
+                        <label for="background-check" class="ml-2 text-sm text-slate-600">
+                            I consent to a background check as part of the application process
                         </label>
                     </div>
                     
@@ -152,7 +190,11 @@
     </section>
 
     <script>
-        const API_BASE_URL = 'project-production-bcbe.up.railway.approject-production-bcbe.up.railway.appp';
+        // API Base URL for Production
+        const API_BASE_URL = 'https://project-production-bcbe.up.railway.app/api';
+        
+        console.log('🚀 API Base URL:', API_BASE_URL);
+        console.log('🌐 Current Host:', window.location.hostname);
 
         // DOM Elements
         const loginTab = document.getElementById('login-tab');
@@ -243,8 +285,12 @@
                 email: email,
                 phoneNumber: document.getElementById('phone-number').value,
                 password: password,
-                userType: 'rider'
-                // No driverProfile for riders
+                userType: 'driver',
+                driverProfile: {
+                    licenseNumber: document.getElementById('license-number').value,
+                    vehicleType: document.getElementById('vehicle-type').value,
+                    vehicleYear: parseInt(document.getElementById('vehicle-year').value)
+                }
             };
 
             try {
@@ -256,7 +302,7 @@
                     body: JSON.stringify({
                         email: currentUserData.email,
                         phoneNumber: currentUserData.phoneNumber,
-                        userType: 'rider',
+                        userType: 'driver',
                         userData: currentUserData
                     })
                 });
@@ -296,7 +342,7 @@
                     body: JSON.stringify({
                         email: currentUserData.email,
                         otp: otp,
-                        userType: 'rider'
+                        userType: 'driver'
                     })
                 });
 
@@ -310,7 +356,7 @@
                     localStorage.setItem('user', JSON.stringify(data.user));
                     
                     setTimeout(() => {
-                        window.location.href = 'rider_dashboard.html';
+                        window.location.href = 'driver_dashboard.html';
                     }, 2000);
                 } else {
                     showMessage(data.message || 'Invalid OTP');
@@ -332,7 +378,7 @@
                     body: JSON.stringify({
                         email: currentUserData.email,
                         phoneNumber: currentUserData.phoneNumber,
-                        userType: 'rider',
+                        userType: 'driver',
                         userData: currentUserData
                     })
                 });
@@ -357,7 +403,7 @@
             const loginData = {
                 email: document.getElementById('login-email').value,
                 password: document.getElementById('login-password').value,
-                userType: 'rider'
+                userType: 'driver'
             };
 
             try {
@@ -378,7 +424,7 @@
                     showMessage('Login successful! Redirecting...', 'success');
                     
                     setTimeout(() => {
-                        window.location.href = 'rider_dashboard.html';
+                        window.location.href = 'driver_dashboard.html';
                     }, 1000);
                 } else {
                     showMessage(data.message || 'Invalid email or password');
@@ -386,6 +432,18 @@
             } catch (error) {
                 console.error('Login error:', error);
                 showMessage('Network error. Please try again.');
+            }
+        });
+
+        // Test backend connection on page load
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                console.log('✅ Backend connection successful:', data);
+            } catch (error) {
+                console.error('❌ Backend connection failed:', error);
+                showMessage('Backend service is currently unavailable. Please try again later.', 'error');
             }
         });
     </script>
